@@ -1,0 +1,77 @@
+.contenCard{
+
+  margin: 1%;
+  padding: 2%;
+  border-radius: 15px;
+}
+
+.primeraFila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  align-content: center;
+}
+.segundaFila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  align-content: center;
+}
+
+.terceraFila {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  align-content: center;
+}
+::ng-deep.name {
+  flex: 1 0 35%;
+}
+.mat{
+  width: 100%;
+}
+
+.codigo {
+  flex: 1 0 5%;
+}
+
+.tipo {
+  flex: 1 0 20%;
+}
+
+.estados {
+  flex: 1 0 5%;
+
+  .radioButtons {
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.categoria{
+    flex: 1 0 20%;
+}
+.destino{
+  flex: 1 0 20%;
+}
+.precio{
+  flex: 1 0 10%;
+}
+
+.matHora{
+width: 100%;
+}
+.Hora{
+  flex: 1 0 100px;
+}
+.lugar{
+  flex: 1 0 50%;
+}

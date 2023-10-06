@@ -1,0 +1,75 @@
+:host {
+  ng-scrollbar {
+    --scrollbar-thumb-color: var(--cui-border-color, #999);
+    --scrollbar-track-color: var(--cui-body-color, #fff);
+    --scrollbar-hover-size: calc(var(--scrollbar-size) * 1.5);
+  }
+}
+
+.mi-sidebar-personalizado {
+  background: linear-gradient(
+    225deg,
+    #0098DC 0%,
+    #0098DB 55.62%,
+    #0ddcf9 91.67%
+  ); /* Reemplaza #00ff00 por el color que desees */
+}
+
+.saludoSesion {
+  color: #000;
+  text-align: right;
+  font-family: Inria Sans;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin: auto !important;
+}
+
+.item_nav{
+  font-family: Inria Sans;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  font-size: 18px;
+}
+
+.item_nav:hover{
+  cursor: pointer;
+  background-color: #F26935;
+  transform: scale(1.1);
+  box-shadow: 0 1px 5px rgb(27, 27, 27);
+}
+
+.content_item {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+.content_icon {
+  width: 100px;
+}
+
+:host {
+  .bodyConten {
+    padding: 0 !important;
+  }
+
+  @media (min-width: 1400px) {
+    .container-xxl,
+    .container-xl,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container {
+      max-width: 100%;
+
+
+    }
+  }
+}
