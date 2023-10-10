@@ -1,0 +1,202 @@
+<mat-card class="contenCard">
+  <mat-card-actions>
+    <button mat-button (click)="back()" color="primary">Volver</button>
+  </mat-card-actions>
+
+  <mat-card-content>
+
+
+
+    <form [formGroup]="serviceForm">
+
+      <legend>servicio</legend>
+
+      <div class="primeraFila">
+        <div class="name">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error *ngIf="serviceForm.get('name')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="codigo">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="codigo" />
+            <mat-error *ngIf="serviceForm.get('codigo')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="tipo">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Tipo de servicio</mat-label>
+            <mat-select formControlName="tipoServicio">
+              <mat-option *ngFor="let item of tServicios" [value]="item.ID">{{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceForm.get('tipoServicio')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="estados">
+          <mat-radio-group formControlName="estado" class="radioButtons">
+            <mat-radio-button value="activo" checked>Activo</mat-radio-button>
+            <mat-radio-button value="inactivo">Inactivo</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+      </div>
+
+
+
+
+
+      <div class="segundaFila">
+        <div class="categoria">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoria">
+              <mat-option *ngFor="let item of categorias" [value]="item.ID">{{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceForm.get('categoria')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="destino">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Destino</mat-label>
+            <mat-select formControlName="destino">
+              <mat-option *ngFor="let item of destino" [value]="item.ID">{{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="serviceForm.get('destino')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="precio">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Precio adultos</mat-label>
+            <input matInput formControlName="precio_adulto" type="text" prefix="$" mask="separator.0"
+              thousandSeparator="." placeholder="$ 0.00" />
+            <mat-error *ngIf="serviceForm.get('precio_adulto')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="precio">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Precio niños</mat-label>
+            <input matInput formControlName="precio_nino" type="text" prefix="$" mask="separator.0"
+              thousandSeparator="." placeholder="$ 0.00" />
+            <mat-error *ngIf="serviceForm.get('precio_nino')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+      <div class="terceraFila">
+        <div class="Hora">
+          <mat-form-field appearance="outline" class="matHora">
+            <mat-label>Hora inicio</mat-label>
+            <input matInput formControlName="hora_inicio" type="text" mask="hh:mm" />
+            <mat-error *ngIf="serviceForm.get('hora_inicio')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="Hora">
+          <mat-form-field appearance="outline" class="matHora">
+            <mat-label>Duración</mat-label>
+            <input matInput formControlName="duracion" type="text" mask="hh:mm" />
+            <mat-error *ngIf="serviceForm.get('duracion')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="lugar">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Lugar</mat-label>
+            <input matInput formControlName="lugar" />
+            <mat-error *ngIf="serviceForm.get('lugar')?.invalid">password is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="descripcion"></textarea>
+          </mat-form-field>
+        </div>
+
+
+        <!-- <div class="col-md-3">
+            <mat-form-field appearance="outline">
+              <mat-label>Adjuntar imágenes:</mat-label>
+
+            </mat-form-field>
+          </div> -->
+
+
+
+
+      </div>
+
+      <div class="wrapper">
+        <div class="box">
+          <div class="input-bx">
+            <h2 class="upload-area-title"> Subir</h2>
+            <input type="file" formControlName="galeria" id="upload" accept=".png, .jpg ,.webp" (change)="onFilesSelected($event)" hidden/>
+            <label for="upload" class="uploadlabel">
+              <span>
+                <mat-icon class="cloudIco">cloud_upload</mat-icon>
+              </span>
+              <p>Click to Upload</p>
+            </label>
+          </div>
+
+          <div id="filewrapper">
+            <h3 class="uploaded">Uploaded Documents</h3>
+              <div class="showfilebox" *ngFor="let item of selectedFilesView">
+                <div class="left">
+                  <span class="filetype">{{item.type}}</span>
+                  <h3>{{item.name}}</h3>
+                </div>
+                <div class="right" (click)="removeImg(item)">
+                  <span>&#215;</span>
+                </div>
+              </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <legend>Atributos(Más información)</legend>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Salida y horarios:</mat-label>
+            <textarea matInput formControlName="salida_horarios"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="mat">
+            <mat-label>Recomendaciones:</mat-label>
+            <textarea matInput formControlName="recomendaciones"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form-group">
+
+      </div>
+
+    </form>
+
+
+
+
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-button (click)="isUpdate?updateServices():saveServices()"
+      class="btnSave">{{isUpdate?"Actualizar":"Guardar"}}</button>
+  </mat-card-actions>
+
+</mat-card>

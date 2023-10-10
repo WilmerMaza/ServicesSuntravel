@@ -1,8 +1,8 @@
 {
-  "name": "micovi",
+  "name": "suntravel",
   "version": "1.0.0",
   "license": "MIT",
-  "homepage": "https://micovi.space/",
+  "homepage": "https://suntravel.space/",
   "config": {
     "coreui_library_short_version": "4.5",
     "coreui_library_docs_url": "https://coreui.io/angular/docs/"

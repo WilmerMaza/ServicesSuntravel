@@ -32,7 +32,7 @@ import {
   TabsModule,
   UtilitiesModule,
 } from '@coreui/angular';
-
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { LocalStorageService } from 'ngx-webstorage';
@@ -44,6 +44,7 @@ const APP_CONTAINERS = [DefaultHeaderComponent, DefaultLayoutComponent];
   declarations: [AppComponent, ...APP_CONTAINERS, ],
   providers: [
     LocalStorageService,
+    provideNgxMask(),
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
@@ -84,7 +85,9 @@ const APP_CONTAINERS = [DefaultHeaderComponent, DefaultLayoutComponent];
     HttpClientModule,
     MaterialModule,
     PagesModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxMaskDirective,
+    NgxMaskPipe
 
   ],
 })

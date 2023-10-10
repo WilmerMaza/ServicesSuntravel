@@ -1,0 +1,43 @@
+.mattable {
+  margin: 1%;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 15px;
+  overflow: hidden;
+
+  background-color: whitesmoke;
+}
+
+table::ng-deep thead {
+  background: #f26935 !important;
+}
+
+table::ng-deep tbody tr:hover {
+  background-color: rgb(206, 206, 206);
+}
+.contenTabla {
+  overflow-x: auto;
+}
+table tr:first-child th /*To remove the last border*/ {
+  border-bottom: 0 solid;
+}
+
+.mat-row.mat-row-selected {
+  background-color: lightblue; /* Cambia el color de fondo de las filas seleccionadas */
+}
+
+.btnCrear {
+  background: #b32d38;
+  color: white !important;
+  width: 200px;
+  border-radius: 15px;
+  margin: 1%;
+}
+
+.colorPoint {
+  color: #fedd20;
+}
+
