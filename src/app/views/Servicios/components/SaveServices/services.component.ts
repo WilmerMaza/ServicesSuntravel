@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Editor } from 'ngx-editor';
@@ -19,7 +19,7 @@ import { ServicesSunService } from '../../service/ServicesSun.service';
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss'],
 })
-export class ServicesComponent implements OnInit, OnDestroy {
+export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
   public serviceForm: FormGroup = new ServicesFormModel().formServices();
   public categorias: categoria[] = [];
   public tServicios: tservicios[] = [];
@@ -33,27 +33,27 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   public salida_horariosEditor: Editor;
   public salida_horarios = '';
-  public isSalida_horarios = false;
+  public isSalida_horarios = true;
 
   public recomendacionesEditor: Editor;
   public recomendaciones = '';
-  public isRecomendaciones = false;
+  public isRecomendaciones = true;
 
   public informacion_AdicionalEditor: Editor;
   public informacion_Adicional = '';
-  public isInformacion_Adicional = false;
+  public isInformacion_Adicional = true;
 
   public terminos_condicionesEditor: Editor;
   public terminos_condiciones = '';
-  public isTerminos_condiciones = false;
+  public isTerminos_condiciones = true;
 
   public incluyeEditor: Editor;
   public incluye = '';
-  public isIncluye = false;
+  public isIncluye = true;
 
   public no_incluyeEditor: Editor;
   public no_incluye = '';
-  public isNo_incluye = false;
+  public isNo_incluye = true;
 
   constructor(
     private servicesSunService: ServicesSunService,
@@ -68,14 +68,17 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
     });
   }
-
-  ngOnInit(): void {
-
+  ngAfterViewInit(): void {
     if (!this.isUpdate) {
       this.initData();
     } else {
       this.dataUpdate(this.servicesId);
     }
+  }
+
+  ngOnInit(): void {
+
+
     this.salida_horariosEditor = new Editor();
     this.recomendacionesEditor = new Editor();
     this.informacion_AdicionalEditor = new Editor();
@@ -100,13 +103,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
     if (files.length > 0) {
       const arrayFiles: File[] = Array.from(files); // Convierte el objeto FileList en un arreglo de tipo File
       arrayFiles.forEach((file: File) => {
-        this.selectedFiles.push(file);
-
         const fileName = {
           type: file.type,
           name: file.name,
         };
-        this.selectedFilesView.push(fileName);
+        if (!this.selectedFilesView.find((fileView: any) => fileView.name === file.name)) {
+          this.selectedFiles.push(file);
+          this.selectedFilesView.push(fileName);
+        }
+
       });
     }
   }
