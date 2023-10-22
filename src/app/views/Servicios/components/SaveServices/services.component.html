@@ -130,7 +130,7 @@
         <div class="box">
           <div class="input-bx">
             <h2 class="upload-area-title"> Subir*</h2>
-            <input type="file" formControlName="galeria" id="upload" accept=".png, .jpg, .webp"
+            <input type="file" formControlName="galeria" id="upload" accept=".png, .jpg, .webp" multiple
               (change)="onFilesSelected($event)" hidden />
             <label for="upload" class="uploadlabel"
               [ngStyle]="{'border': serviceForm.get('galeria')?.invalid ? '3px dashed #f9000082' : ' 3px dashed #18a7ff82'}">

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Editor } from 'ngx-editor';
@@ -19,7 +19,7 @@ import { ServicesSunService } from '../../service/ServicesSun.service';
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss'],
 })
-export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ServicesComponent implements OnInit, OnDestroy {
   public serviceForm: FormGroup = new ServicesFormModel().formServices();
   public categorias: categoria[] = [];
   public tServicios: tservicios[] = [];
@@ -68,17 +68,14 @@ export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     });
   }
-  ngAfterViewInit(): void {
-    if (!this.isUpdate) {
-      this.initData();
-    }else{
-      this.dataUpdate(this.servicesId);
-    }
-  }
 
   ngOnInit(): void {
 
-
+    if (!this.isUpdate) {
+      this.initData();
+    } else {
+      this.dataUpdate(this.servicesId);
+    }
     this.salida_horariosEditor = new Editor();
     this.recomendacionesEditor = new Editor();
     this.informacion_AdicionalEditor = new Editor();
@@ -101,14 +98,19 @@ export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
     } = event;
 
     if (files.length > 0) {
-      this.selectedFiles.push(files[0]);
-      const file = {
-        type: files[0].type,
-        name: files[0].name,
-      };
-      this.selectedFilesView.push(file);
+      const arrayFiles: File[] = Array.from(files); // Convierte el objeto FileList en un arreglo de tipo File
+      arrayFiles.forEach((file: File) => {
+        this.selectedFiles.push(file);
+
+        const fileName = {
+          type: file.type,
+          name: file.name,
+        };
+        this.selectedFilesView.push(fileName);
+      });
     }
   }
+
 
 
 
@@ -164,7 +166,7 @@ export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
               this.selectedFilesDelete.push(img);
             });
           }
-
+          this.atributos(tservicioId);
           this.serviceForm.patchValue({
             ...res,
             tipoServicio: tservicioId,
@@ -236,11 +238,12 @@ export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.servicesSunService.saveService(request).subscribe(
       (res) => {
-        this.serviceForm.reset();
-        this.selectedFiles.pop();
-        this.selectedFilesView.pop();
         this.servicesSunService.subirImg(formData).subscribe(
           (res) => {
+            this.serviceForm.reset();
+            this.selectedFiles.pop();
+            this.selectedFilesView.pop();
+            this.selectedFilesView = []
             Toast.fire({
               icon: 'success',
               title: res.msg,
