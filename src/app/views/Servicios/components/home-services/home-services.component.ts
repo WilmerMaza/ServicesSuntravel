@@ -1,17 +1,17 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { ServicesSunService } from '../../service/ServicesSun.service';
-import { services } from '../../model/categoriaModel';
-import { Toast } from 'src/app/utils/alert_Toast';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Toast } from 'src/app/utils/alert_Toast';
+import { services } from '../../model/categoriaModel';
+import { ServicesSunService } from '../../service/ServicesSun.service';
 
 @Component({
   selector: 'app-home-services',
   templateUrl: './home-services.component.html',
   styleUrls: ['./home-services.component.scss'],
 })
-export class HomeServicesComponent implements OnInit, AfterViewInit {
+export class HomeServicesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public servicios: services[] = [];
   public columnas: string[] = [
@@ -21,6 +21,7 @@ export class HomeServicesComponent implements OnInit, AfterViewInit {
     'estado',
     'acciones',
   ];
+  showSpinner = true;
   public dataSource: MatTableDataSource<services>;
   public imageUrl: string = '';
 
@@ -29,31 +30,20 @@ export class HomeServicesComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
 
+
   ngOnInit(): void {
     this.initData();
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   initData(): void {
     this.servicesSunService.getServices().subscribe((res: services[]) => {
       this.servicios = res;
       this.dataSource = new MatTableDataSource(this.servicios);
-      this.dataSource.paginator = this.paginator; // Asigna el paginador después de cargar los datos
+      this.dataSource.paginator = this.paginator;
     });
-
-    //example de api img
-
-    // this.servicesSunService.getImg("Frame 3.png").subscribe((data) => {
-    //     const reader = new FileReader();
-    //     reader.onload = () => {
-    //       this.imageUrl = reader.result as string;
-    //   // Agrega esto para verificar la URL
-    //     };
-    //     reader.readAsDataURL(data);
-    //   });
   }
 
   editarPersona({ ID }: services) {

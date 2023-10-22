@@ -24,6 +24,12 @@ export class DefaultLayoutComponent implements OnInit {
     })
   }
 
+  toggleItem(item: INavData) {
+    if (item.children) {
+      item.divider = !item.divider;
+    }
+  }
+
   goRouter(item: INavData){
     this.router.navigate([item.url]);
   }

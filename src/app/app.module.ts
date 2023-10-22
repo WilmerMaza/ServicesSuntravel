@@ -1,17 +1,19 @@
-import { NgModule } from '@angular/core';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'src/app/infraestructure/modules/material/material.module';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MaterialModule } from 'src/app/infraestructure/modules/material/material.module';
 // Import routing module
 import { AppRoutingModule } from './app-routing.module';
 // Import app component
 import { AppComponent } from './app.component';
 // Import containers
-import { DefaultHeaderComponent, DefaultLayoutComponent } from './containers';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   AvatarModule,
   BadgeModule,
@@ -32,12 +34,12 @@ import {
   TabsModule,
   UtilitiesModule,
 } from '@coreui/angular';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { HttpClientModule } from '@angular/common/http';
+import { NgxEditorModule } from 'ngx-editor';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { LocalStorageService } from 'ngx-webstorage';
+import { DefaultHeaderComponent, DefaultLayoutComponent } from './containers';
 import { PagesModule } from './views/pages/pages.module';
-import { MatButtonModule } from '@angular/material/button';
 const APP_CONTAINERS = [DefaultHeaderComponent, DefaultLayoutComponent];
 
 @NgModule({
@@ -87,7 +89,9 @@ const APP_CONTAINERS = [DefaultHeaderComponent, DefaultLayoutComponent];
     PagesModule,
     MatButtonModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    NgxEditorModule,
+    MatProgressSpinnerModule
 
   ],
 })
