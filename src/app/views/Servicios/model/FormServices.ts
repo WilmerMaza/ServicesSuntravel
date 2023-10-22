@@ -13,11 +13,17 @@ export class ServicesFormModel {
       precio_nino: new FormControl(null,[Validators.required]),
       hora_inicio: new FormControl(null,[Validators.required]),
       duracion: new FormControl(null,[Validators.required]),
-      lugar: new FormControl(null,[Validators.required]),
-      descripcion: new FormControl(),
-      galeria: new FormControl(),
-      salida_horarios: new FormControl(),
-      recomendaciones: new FormControl(),
+      lugar: new FormControl(null),
+      descripcion: new FormControl(null,[Validators.required]),
+      galeria: new FormControl(''),
+
+      recomendaciones: new FormControl('N/A'),
+      salida_horario: new FormControl('N/A'),
+      informacion_Adicional: new FormControl('N/A'),
+      terminos_condiciones: new FormControl('N/A'),
+      incluye: new FormControl('N/A'),
+      no_incluye: new FormControl('N/A'),
+
     });
   }
 }

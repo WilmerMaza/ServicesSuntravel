@@ -16,7 +16,7 @@
           <mat-form-field appearance="outline" class="mat">
             <mat-label>Nombre</mat-label>
             <input matInput formControlName="name" />
-            <mat-error *ngIf="serviceForm.get('name')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('name')?.invalid">Nombre is required</mat-error>
           </mat-form-field>
         </div>
 
@@ -24,17 +24,17 @@
           <mat-form-field appearance="outline" class="mat">
             <mat-label>Código</mat-label>
             <input matInput formControlName="codigo" />
-            <mat-error *ngIf="serviceForm.get('codigo')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('codigo')?.invalid">Código is required</mat-error>
           </mat-form-field>
         </div>
 
         <div class="tipo">
           <mat-form-field appearance="outline" class="mat">
             <mat-label>Tipo de servicio</mat-label>
-            <mat-select formControlName="tipoServicio">
+            <mat-select formControlName="tipoServicio" (ngModelChange)=" atributos($event)">
               <mat-option *ngFor="let item of tServicios" [value]="item.ID">{{item.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="serviceForm.get('tipoServicio')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('tipoServicio')?.invalid">Tipo de servicio is required</mat-error>
           </mat-form-field>
         </div>
 
@@ -58,7 +58,7 @@
             <mat-select formControlName="categoria">
               <mat-option *ngFor="let item of categorias" [value]="item.ID">{{item.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="serviceForm.get('categoria')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('categoria')?.invalid">Categoría is required</mat-error>
           </mat-form-field>
         </div>
 
@@ -68,7 +68,7 @@
             <mat-select formControlName="destino">
               <mat-option *ngFor="let item of destino" [value]="item.ID">{{item.name}}</mat-option>
             </mat-select>
-            <mat-error *ngIf="serviceForm.get('destino')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('destino')?.invalid">Destino is required</mat-error>
           </mat-form-field>
         </div>
         <div class="precio">
@@ -76,7 +76,7 @@
             <mat-label>Precio adultos</mat-label>
             <input matInput formControlName="precio_adulto" type="text" prefix="$" mask="separator.0"
               thousandSeparator="." placeholder="$ 0.00" />
-            <mat-error *ngIf="serviceForm.get('precio_adulto')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('precio_adulto')?.invalid">Precio adultos is required</mat-error>
           </mat-form-field>
         </div>
         <div class="precio">
@@ -84,7 +84,7 @@
             <mat-label>Precio niños</mat-label>
             <input matInput formControlName="precio_nino" type="text" prefix="$" mask="separator.0"
               thousandSeparator="." placeholder="$ 0.00" />
-            <mat-error *ngIf="serviceForm.get('precio_nino')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('precio_nino')?.invalid">Precio niños is required</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -96,22 +96,22 @@
         <div class="Hora">
           <mat-form-field appearance="outline" class="matHora">
             <mat-label>Hora inicio</mat-label>
-            <input matInput formControlName="hora_inicio" type="text" mask="hh:mm" />
-            <mat-error *ngIf="serviceForm.get('hora_inicio')?.invalid">password is required</mat-error>
+            <input matInput formControlName="hora_inicio" type="text" mask="hh:mm" placeholder="00:00" />
+            <mat-error *ngIf="serviceForm.get('hora_inicio')?.invalid">Hora inicio is required</mat-error>
           </mat-form-field>
         </div>
         <div class="Hora">
           <mat-form-field appearance="outline" class="matHora">
             <mat-label>Duración</mat-label>
-            <input matInput formControlName="duracion" type="text" mask="hh:mm" />
-            <mat-error *ngIf="serviceForm.get('duracion')?.invalid">password is required</mat-error>
+            <input matInput formControlName="duracion" type="text" mask="hh:mm" placeholder="00:00" />
+            <mat-error *ngIf="serviceForm.get('duracion')?.invalid">Duración is required</mat-error>
           </mat-form-field>
         </div>
         <div class="lugar">
           <mat-form-field appearance="outline" class="mat">
             <mat-label>Lugar</mat-label>
             <input matInput formControlName="lugar" />
-            <mat-error *ngIf="serviceForm.get('lugar')?.invalid">password is required</mat-error>
+            <mat-error *ngIf="serviceForm.get('lugar')?.invalid">Lugar is required</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -121,71 +121,117 @@
           <mat-form-field appearance="outline" class="mat">
             <mat-label>Descripción</mat-label>
             <textarea matInput formControlName="descripcion"></textarea>
+            <mat-error *ngIf="serviceForm.get('descripcion')?.invalid">Descripción is required</mat-error>
           </mat-form-field>
         </div>
-
-
-        <!-- <div class="col-md-3">
-            <mat-form-field appearance="outline">
-              <mat-label>Adjuntar imágenes:</mat-label>
-
-            </mat-form-field>
-          </div> -->
-
-
-
-
       </div>
 
       <div class="wrapper">
         <div class="box">
           <div class="input-bx">
-            <h2 class="upload-area-title"> Subir</h2>
-            <input type="file" formControlName="galeria" id="upload" accept=".png, .jpg ,.webp" (change)="onFilesSelected($event)" hidden/>
-            <label for="upload" class="uploadlabel">
-              <span>
+            <h2 class="upload-area-title"> Subir*</h2>
+            <input type="file" formControlName="galeria" id="upload" accept=".png, .jpg, .webp"
+              (change)="onFilesSelected($event)" hidden />
+            <label for="upload" class="uploadlabel"
+              [ngStyle]="{'border': serviceForm.get('galeria')?.invalid ? '3px dashed #f9000082' : ' 3px dashed #18a7ff82'}">
+              <span class="icon">
                 <mat-icon class="cloudIco">cloud_upload</mat-icon>
               </span>
               <p>Click to Upload</p>
             </label>
           </div>
 
-          <div id="filewrapper">
-            <h3 class="uploaded">Uploaded Documents</h3>
-              <div class="showfilebox" *ngFor="let item of selectedFilesView">
-                <div class="left">
-                  <span class="filetype">{{item.type}}</span>
-                  <h3>{{item.name}}</h3>
-                </div>
-                <div class="right" (click)="removeImg(item)">
-                  <span>&#215;</span>
-                </div>
-              </div>
-          </div>
+          <!-- Muestra el mensaje de error -->
+          <mat-error *ngIf="serviceForm.get('galeria')?.hasError('required')">Image is required</mat-error>
+          <mat-error *ngIf="serviceForm.get('galeria')?.hasError('minImages')">Minimum of 6 images allowed</mat-error>
+          <mat-error *ngIf="serviceForm.get('galeria')?.hasError('maxFileSize')">Total size of images cannot exceed 2
+            MB</mat-error>
 
+          <div id="filewrapper">
+            <h3 class="uploaded">Uploaded Documents (min 6, total 2 MB)</h3>
+            <div class="showfilebox" *ngFor="let item of selectedFilesView">
+              <div class="left">
+                <span class="filetype">{{item.type}}</span>
+                <h3>{{item.name}}</h3>
+              </div>
+              <div class="right" (click)="removeImg(item)">
+                <span>&#215;</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
 
       <legend>Atributos(Más información)</legend>
       <hr />
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field appearance="outline" class="mat">
-            <mat-label>Salida y horarios:</mat-label>
-            <textarea matInput formControlName="salida_horarios"></textarea>
-          </mat-form-field>
+
+      <div class="masInfo">
+        <div class="campoEdit" [hidden]="!isSalida_horarios">
+          <span>Salida y horarios:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="salida_horariosEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="salida_horariosEditor" [ngModel]="salida_horarios" [disabled]="false"
+              [placeholder]="'Type here...'" formControlName="salida_horario"></ngx-editor>
+          </div>
         </div>
-        <div class="col-md-6">
-          <mat-form-field appearance="outline" class="mat">
-            <mat-label>Recomendaciones:</mat-label>
-            <textarea matInput formControlName="recomendaciones"></textarea>
-          </mat-form-field>
+
+        <div class="campoEditDos" [hidden]="!isRecomendaciones">
+          <span>Recomendaciones:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="recomendacionesEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="recomendacionesEditor" [ngModel]="recomendaciones" [disabled]="false"
+              [placeholder]="'Type here...'" formControlName="recomendaciones"></ngx-editor>
+          </div>
         </div>
       </div>
-      <div class="form-group">
+
+      <div class="masInfo">
+
+        <div class="campoEdit" [hidden]="!isInformacion_Adicional">
+          <span>Informacion Adicional:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="informacion_AdicionalEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="informacion_AdicionalEditor" [ngModel]="informacion_Adicional" [disabled]="false"
+              [placeholder]="'Type here...'" formControlName="informacion_Adicional"></ngx-editor>
+          </div>
+        </div>
+
+        <div class="campoEditDos" [hidden]="!isTerminos_condiciones">
+          <span>Terminos y condiciones:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="terminos_condicionesEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="terminos_condicionesEditor" [ngModel]="terminos_condiciones" [disabled]="false"
+              [placeholder]="'Type here...'" formControlName="terminos_condiciones"></ngx-editor>
+          </div>
+        </div>
 
       </div>
+
+
+      <div class="masInfo">
+
+        <div class="campoEdit" [hidden]="!isIncluye">
+          <span>Incluye:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="incluyeEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="incluyeEditor" [ngModel]="incluye" [disabled]="false" [placeholder]="'Type here...'"
+              formControlName="incluye"></ngx-editor>
+          </div>
+        </div>
+
+        <div class="campoEdit" [hidden]="!isNo_incluye">
+          <span>No incluye:</span>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="no_incluyeEditor"> </ngx-editor-menu>
+            <ngx-editor [editor]="no_incluyeEditor" [ngModel]="no_incluye" [disabled]="false"
+              [placeholder]="'Type here...'" formControlName="no_incluye"></ngx-editor>
+          </div>
+        </div>
+
+      </div>
+
+
 
     </form>
 
@@ -200,3 +246,5 @@
   </mat-card-actions>
 
 </mat-card>
+
+

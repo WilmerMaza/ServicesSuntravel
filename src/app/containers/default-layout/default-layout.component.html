@@ -18,12 +18,12 @@
       height: 46,
       alt: 'suntravel Logo'
     }"
-    routerLink="./"
+    routerLink="./home"
   />
 
   <ng-scrollbar pointerEventsMethod="scrollbar">
     <div *ngFor="let item of navItems">
-      <div class="item_nav" (click)="goRouter(item)">
+      <div class="item_nav" (click)="goRouter(item)" *ngIf="!item.children">
         <div class="content_item">
           <div class="content_icon">
             <mat-icon>{{item.iconComponent.name}}</mat-icon>
@@ -31,7 +31,31 @@
           <div class="nav_name">{{item.name}}</div>
         </div>
       </div>
+      <div class="item_nav" *ngIf="item.children" [ngClass]="{'selectChildren': item.divider}">
+        <div class="content_item" (click)="toggleItem(item)">
+          <div class="content_icon">
+            <mat-icon>{{item.iconComponent.name}}</mat-icon>
+          </div>
+          <div class="nav_name">{{item.name}}</div>
+          <mat-icon class="expand-icon" *ngIf="item.children && item.divider">expand_more</mat-icon>
+        </div>
+      </div>
+      <div *ngIf="item.divider" class="children">
+        <div *ngFor="let childItem of item.children" class="child-item">
+          <div class="item_nav" (click)="goRouter(childItem)">
+            <div class="content_item">
+              <div class="content_icon">
+                <mat-icon>{{childItem.iconComponent.name}}</mat-icon>
+              </div>
+              <div class="nav_name">{{childItem.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+
   </ng-scrollbar>
   <c-sidebar-toggler
     *ngIf="!sidebar.narrow"

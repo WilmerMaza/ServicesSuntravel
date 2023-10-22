@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ServicesFormModel } from '../../model/FormServices';
-import { ServicesSunService } from '../../service/ServicesSun.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Editor } from 'ngx-editor';
+import { Validators } from 'src/app/utils/Validators';
 import { Toast } from 'src/app/utils/alert_Toast';
+import { ServicesFormModel } from '../../model/FormServices';
 import {
   categoria,
   destino,
@@ -10,15 +12,14 @@ import {
   services,
   tservicios,
 } from '../../model/categoriaModel';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Validators } from 'src/app/utils/Validators';
+import { ServicesSunService } from '../../service/ServicesSun.service';
 
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss'],
 })
-export class ServicesComponent implements OnInit {
+export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
   public serviceForm: FormGroup = new ServicesFormModel().formServices();
   public categorias: categoria[] = [];
   public tServicios: tservicios[] = [];
@@ -30,41 +31,90 @@ export class ServicesComponent implements OnInit {
   private selectedFilesDelete: string[] = [];
   private fileDelete: string[] = [];
 
+  public salida_horariosEditor: Editor;
+  public salida_horarios = '';
+  public isSalida_horarios = false;
+
+  public recomendacionesEditor: Editor;
+  public recomendaciones = '';
+  public isRecomendaciones = false;
+
+  public informacion_AdicionalEditor: Editor;
+  public informacion_Adicional = '';
+  public isInformacion_Adicional = false;
+
+  public terminos_condicionesEditor: Editor;
+  public terminos_condiciones = '';
+  public isTerminos_condiciones = false;
+
+  public incluyeEditor: Editor;
+  public incluye = '';
+  public isIncluye = false;
+
+  public no_incluyeEditor: Editor;
+  public no_incluye = '';
+  public isNo_incluye = false;
+
   constructor(
     private servicesSunService: ServicesSunService,
     private router: Router,
-    private routeActive: ActivatedRoute
+    private routeActive: ActivatedRoute,
   ) {
     this.routeActive.queryParams.subscribe((params) => {
-      this.dataUpdate(params['id']);
+      if (!Validators.isNullOrUndefined(params['id'])) {
+        this.isUpdate = true;
+        this.servicesId = params['id'];
+      }
+
     });
+  }
+  ngAfterViewInit(): void {
+    if (!this.isUpdate) {
+      this.initData();
+    }else{
+      this.dataUpdate(this.servicesId);
+    }
   }
 
   ngOnInit(): void {
-    this.initData();
+
+
+    this.salida_horariosEditor = new Editor();
+    this.recomendacionesEditor = new Editor();
+    this.informacion_AdicionalEditor = new Editor();
+    this.no_incluyeEditor = new Editor();
+    this.terminos_condicionesEditor = new Editor();
+    this.incluyeEditor = new Editor();
+  }
+  ngOnDestroy(): void {
+    this.salida_horariosEditor.destroy();
+    this.recomendacionesEditor.destroy();
+    this.informacion_AdicionalEditor.destroy();
+    this.no_incluyeEditor.destroy();
+    this.terminos_condicionesEditor.destroy();
+    this.incluyeEditor.destroy();
   }
 
   onFilesSelected(event: any): void {
-    console.log(event);
-
     const {
-      target: {
-        files,
-        files: [{ name, type }],
-      },
+      target: { files },
     } = event;
-    const file = {
-      type,
-      name,
-    };
 
-    this.selectedFilesView.push(file);
-    this.selectedFiles.push(files[0]);
+    if (files.length > 0) {
+      this.selectedFiles.push(files[0]);
+      const file = {
+        type: files[0].type,
+        name: files[0].name,
+      };
+      this.selectedFilesView.push(file);
+    }
   }
 
-  removeImg(data: any): void {
-    console.log(data);
 
+
+
+
+  removeImg(data: any): void {
     this.selectedFilesView = this.selectedFilesView.filter(
       (item) => item.name !== data.name
     );
@@ -80,8 +130,8 @@ export class ServicesComponent implements OnInit {
   }
   dataUpdate(servicioID: string) {
     if (!Validators.isNullOrUndefined(servicioID)) {
-      this.isUpdate = true;
-      this.servicesId = servicioID;
+      this.initData();
+
       const data = {
         servicioID,
       };
@@ -141,6 +191,29 @@ export class ServicesComponent implements OnInit {
   }
 
   saveServices(): void {
+    this.serviceForm.markAllAsTouched();
+
+    if (!this.selectedFiles.length) {
+      this.serviceForm.get('galeria')?.setErrors({ required: true });
+      return;
+    }
+
+    if (this.selectedFiles.length < 6) {
+      this.serviceForm.get('galeria')?.setErrors({ minImages: true });
+      return;
+    }
+
+    const totalSize = this.selectedFiles.reduce((acc, file) => acc + file.size, 0);
+    if (totalSize > 2 * 1024 * 1024) {
+      this.serviceForm.get('galeria')?.setErrors({ maxFileSize: true });
+      return;
+    }
+
+    if (!this.selectedFilesView.length) {
+      // Si no se seleccionó ninguna imagen, muestra un mensaje de error
+      this.serviceForm.get('galeria')?.setErrors({ required: true });
+      return;
+    }
     if (!this.serviceForm.valid) {
       return;
     }
@@ -191,6 +264,12 @@ export class ServicesComponent implements OnInit {
   }
 
   updateServices(): void {
+    if (!this.selectedFilesView.length) {
+      // Si no se seleccionó ninguna imagen, muestra un mensaje de error
+      this.serviceForm.get('galeria')?.setErrors({ required: true });
+      return;
+    }
+
     if (!this.serviceForm.valid) {
       this.serviceForm.markAllAsTouched();
       return;
@@ -245,5 +324,32 @@ export class ServicesComponent implements OnInit {
 
   back(): void {
     this.router.navigate(['/servicios']);
+  }
+
+  atributos(idServicio: string) {
+    const isAtributos = this.tServicios.find((item) => item.ID === idServicio);
+    if (isAtributos) {
+      isAtributos.AtributosDescribe.forEach((item) => {
+        const {
+          Atributo: { name },
+          estado,
+        } = item;
+
+        this.isSalida_horarios =
+          name === 'Salida y horarios' ? estado : this.isSalida_horarios;
+        this.isRecomendaciones =
+          name === 'Recomendaciones' ? estado : this.isRecomendaciones;
+        this.isInformacion_Adicional =
+          name === 'Informacion Adicional'
+            ? estado
+            : this.isInformacion_Adicional;
+        this.isTerminos_condiciones =
+          name === 'Terminos y condiciones'
+            ? estado
+            : this.isTerminos_condiciones;
+        this.isIncluye = name === 'Incluye' ? estado : this.isIncluye;
+        this.isNo_incluye = name === 'No incluye' ? estado : this.isNo_incluye;
+      });
+    }
   }
 }
