@@ -19,7 +19,7 @@ import { ServicesSunService } from '../../service/ServicesSun.service';
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.scss'],
 })
-export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
+export class ServicesComponent implements OnInit, OnDestroy, AfterViewInit {
   public serviceForm: FormGroup = new ServicesFormModel().formServices();
   public categorias: categoria[] = [];
   public tServicios: tservicios[] = [];
@@ -58,14 +58,13 @@ export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
   constructor(
     private servicesSunService: ServicesSunService,
     private router: Router,
-    private routeActive: ActivatedRoute,
+    private routeActive: ActivatedRoute
   ) {
     this.routeActive.queryParams.subscribe((params) => {
       if (!Validators.isNullOrUndefined(params['id'])) {
         this.isUpdate = true;
         this.servicesId = params['id'];
       }
-
     });
   }
   ngAfterViewInit(): void {
@@ -77,8 +76,6 @@ export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
   }
 
   ngOnInit(): void {
-
-
     this.salida_horariosEditor = new Editor();
     this.recomendacionesEditor = new Editor();
     this.informacion_AdicionalEditor = new Editor();
@@ -107,19 +104,17 @@ export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
           type: file.type,
           name: file.name,
         };
-        if (!this.selectedFilesView.find((fileView: any) => fileView.name === file.name)) {
+        if (
+          !this.selectedFilesView.find(
+            (fileView: any) => fileView.name === file.name
+          )
+        ) {
           this.selectedFiles.push(file);
           this.selectedFilesView.push(fileName);
         }
-
       });
     }
   }
-
-
-
-
-
 
   removeImg(data: any): void {
     this.selectedFilesView = this.selectedFilesView.filter(
@@ -205,12 +200,15 @@ export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
       return;
     }
 
-    if (this.selectedFiles.length < 6) {
+    if (this.selectedFiles.length < 1) {
       this.serviceForm.get('galeria')?.setErrors({ minImages: true });
       return;
     }
 
-    const totalSize = this.selectedFiles.reduce((acc, file) => acc + file.size, 0);
+    const totalSize = this.selectedFiles.reduce(
+      (acc, file) => acc + file.size,
+      0
+    );
     if (totalSize > 2 * 1024 * 1024) {
       this.serviceForm.get('galeria')?.setErrors({ maxFileSize: true });
       return;
@@ -248,7 +246,7 @@ export class ServicesComponent implements OnInit, OnDestroy,AfterViewInit {
             this.serviceForm.reset();
             this.selectedFiles.pop();
             this.selectedFilesView.pop();
-            this.selectedFilesView = []
+            this.selectedFilesView = [];
             Toast.fire({
               icon: 'success',
               title: res.msg,

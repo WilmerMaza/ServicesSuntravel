@@ -148,7 +148,7 @@
             MB</mat-error>
 
           <div id="filewrapper">
-            <h3 class="uploaded">Uploaded Documents (min 6, total 2 MB)</h3>
+            <h3 class="uploaded">Uploaded Documents (Minimum of 6 images, maximum 2 MB)</h3>
             <div class="showfilebox" *ngFor="let item of selectedFilesView">
               <div class="left">
                 <span class="filetype">{{item.type}}</span>
@@ -171,7 +171,7 @@
           <span>Salida y horarios:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="salida_horariosEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="salida_horariosEditor" [ngModel]="salida_horarios" [disabled]="false"
+            <ngx-editor [editor]="salida_horariosEditor"
               [placeholder]="'Type here...'" formControlName="salida_horario"></ngx-editor>
           </div>
         </div>
@@ -180,7 +180,7 @@
           <span>Recomendaciones:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="recomendacionesEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="recomendacionesEditor" [ngModel]="recomendaciones" [disabled]="false"
+            <ngx-editor [editor]="recomendacionesEditor"
               [placeholder]="'Type here...'" formControlName="recomendaciones"></ngx-editor>
           </div>
         </div>
@@ -192,7 +192,7 @@
           <span>Informacion Adicional:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="informacion_AdicionalEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="informacion_AdicionalEditor" [ngModel]="informacion_Adicional" [disabled]="false"
+            <ngx-editor [editor]="informacion_AdicionalEditor"
               [placeholder]="'Type here...'" formControlName="informacion_Adicional"></ngx-editor>
           </div>
         </div>
@@ -201,7 +201,7 @@
           <span>Terminos y condiciones:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="terminos_condicionesEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="terminos_condicionesEditor" [ngModel]="terminos_condiciones" [disabled]="false"
+            <ngx-editor [editor]="terminos_condicionesEditor"
               [placeholder]="'Type here...'" formControlName="terminos_condiciones"></ngx-editor>
           </div>
         </div>
@@ -215,7 +215,7 @@
           <span>Incluye:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="incluyeEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="incluyeEditor" [ngModel]="incluye" [disabled]="false" [placeholder]="'Type here...'"
+            <ngx-editor [editor]="incluyeEditor"  [placeholder]="'Type here...'"
               formControlName="incluye"></ngx-editor>
           </div>
         </div>
@@ -224,7 +224,7 @@
           <span>No incluye:</span>
           <div class="NgxEditor__Wrapper">
             <ngx-editor-menu [editor]="no_incluyeEditor"> </ngx-editor-menu>
-            <ngx-editor [editor]="no_incluyeEditor" [ngModel]="no_incluye" [disabled]="false"
+            <ngx-editor [editor]="no_incluyeEditor"
               [placeholder]="'Type here...'" formControlName="no_incluye"></ngx-editor>
           </div>
         </div>
